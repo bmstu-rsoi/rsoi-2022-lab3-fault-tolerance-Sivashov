@@ -225,7 +225,7 @@ app.get('/api/v1/privilege', async function (req, res) {
   }
   else {
     //console.log((await breaker_info).data)
-    res.status(503).setHeader('Content-Type', 'application/json').send("Bonus Service unavailable");
+    res.status(503).setHeader('Content-Type', 'application/json').send('Bonus Service unavailable');
     return;
   }
   
@@ -359,6 +359,19 @@ app.post('/api/v1/tickets', async function (req, res) {
     console.log("Percent: ", pprice)
     res_paid_bal = price
   }
+
+  let breaker_info = breaker.fire()
+  console.log(await breaker_info)
+  if ((await breaker_info).status === 200) {
+    console.log("Good")
+    //res.status(200).json(null)
+  }
+  else {
+    //console.log((await breaker_info).data)
+    res.status(503).setHeader('Content-Type', 'application/json').send('Bonus Service unavailable');
+    return;
+  }
+
   const bonus = await getBonuses()
   console.log(bonus.data)
   const bonus_data = updateBonus(name, pprice)
