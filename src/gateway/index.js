@@ -34,7 +34,8 @@ function fallbackRes() {
 }
 
 function unstableRequest() {
-  return axios.get('http://localhost:8050/manage/health')
+  //return axios.get('http://localhost:8050/manage/health')
+  return axios.get('http://privilegies:8050/manage/health')
 }
 
 const breaker = new CircuitBreaker(unstableRequest, {

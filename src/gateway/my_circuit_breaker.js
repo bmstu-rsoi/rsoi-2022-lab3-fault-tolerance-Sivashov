@@ -22,7 +22,8 @@ class CircuitBreaker {
         if (this.nextAttempt <= Date.now()) {
           this.state = "HALF"
         } else {
-          throw new Error("Circuit is currently OPEN")
+          //throw new Error("Circuit is currently OPEN")
+          console.log("Circuit is currently OPEN")
         }
       }
       // означает, что обрабатывается CLOSED
