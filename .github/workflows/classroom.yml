@@ -37,9 +37,16 @@ jobs:
         timeout-minutes: 5
         run: ./scripts/test-script.sh
         env:
-          VARIANT: <variant>
-          SERVICE_NAME: <your service name>
-          PORT_NUMBER: <port number>
+          VARIANT: v1
+          SERVICE_NAME: privilegies
+          PORT_NUMBER: 8050
+      
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          images: 'library/postgres,tickets,flights,privilegies,gateway'
+          tail: '250'
 
       - uses: education/autograding@v1
         id: autograder
