@@ -21,11 +21,10 @@ const pg = require('pg');
 const privileges_db = new pg.Client({
   user: 'postgres',
   //host: 'postgres',
-  host: 'postgres',
   database: 'postgres',
-  password: 'postgres',
+  password: 'forest123ry',
   port: 5432,
-  ssl: false,
+  //ssl: false,
 });
 
 privileges_db.connect(function (err){

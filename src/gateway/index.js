@@ -39,7 +39,7 @@ function unstableRequest() {
 
 const breaker = new CircuitBreaker(unstableRequest, {
   fallback: fallbackRes,
-  failureThreshold: 1
+  failureThreshold: 0
   // ...etc
 })
 
@@ -204,14 +204,15 @@ app.get('/api/v1/me', async function (req, res) {
 app.get('/api/v1/privilege', async function (req, res) {
 
   //let breaker_info = breaker.fire().then(console.log).catch(console.error)
-  let breaker_info = breaker.fire().catch((error) => {return error.data})
+  //let breaker_info = breaker.fire().catch((error) => {return error.data})
+  let breaker_info = breaker.fire()
   console.log(await breaker_info)
   if ((await breaker_info).status === 200) {
     console.log("Good")
     //res.status(200).json(null)
   }
   else {
-    console.log((await breaker_info).data)
+    //console.log((await breaker_info).data)
     res.status(503).json({data: (await breaker_info).data});
     return;
   }
