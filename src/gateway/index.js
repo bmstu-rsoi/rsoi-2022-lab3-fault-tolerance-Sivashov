@@ -206,7 +206,7 @@ app.get('/api/v1/me', async function (req, res) {
     }
   }
   else {
-    res.status(200).json({tickets: [dat1, dat2], privilege: {}})
+    res.status(503).json({tickets: [dat1, dat2], privilege: {}})
     return;
   }
 
@@ -225,7 +225,7 @@ app.get('/api/v1/privilege', async function (req, res) {
   }
   else {
     //console.log((await breaker_info).data)
-    res.status(503).json({data: "Bonus Service unavailable"});
+    res.status(503).send("Bonus Service unavailable");
     return;
   }
   
