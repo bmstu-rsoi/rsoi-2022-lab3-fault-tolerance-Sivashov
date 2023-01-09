@@ -205,6 +205,7 @@ app.get('/api/v1/privilege', async function (req, res) {
 
   //let breaker_info = breaker.fire().then(console.log).catch(console.error)
   let breaker_info = breaker.fire().catch((error) => {return error.data})
+  console.log(await breaker_info)
   if ((await breaker_info).status === 200) {
     console.log("Good")
     //res.status(200).json(null)
