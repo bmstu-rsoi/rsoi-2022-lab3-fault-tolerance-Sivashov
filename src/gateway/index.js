@@ -187,19 +187,33 @@ app.get('/api/v1/me', async function (req, res) {
     price: tickets_data.data[1].price,
     status: "PAID"
    }
+  
+  let breaker_info = breaker.fire()
+  console.log(await breaker_info)
+  if ((await breaker_info).status === 200) {
+    console.log("Good")
+    const bonuses = await getBonuses()
+    if (bonuses.data) {
+      console.log(bonuses.data)
+    }
 
-  const bonuses = await getBonuses()
-  if (bonuses.data) {
-    console.log(bonuses.data)
-  }
-
-  if (tickets_data.data && bonuses.data)
-  {
-    res.status(200).json({tickets: [dat1, dat2], privilege: {balance: 1800, status: bonuses.data[0].status}})
+    if (tickets_data.data && bonuses.data)
+    {
+      res.status(200).json({tickets: [dat1, dat2], privilege: {balance: 1800, status: bonuses.data[0].status}})
+    }
+    else {
+      res.status(400).json(null)
+    }
   }
   else {
-    res.status(400).json(null)
+    if (tickets_data.data && bonuses.data)
+    {
+      res.status(200).json({tickets: [dat1, dat2], privilege: {}})
+    }
+    return;
   }
+
+  
 });
 
 app.get('/api/v1/privilege', async function (req, res) {
@@ -214,7 +228,7 @@ app.get('/api/v1/privilege', async function (req, res) {
   }
   else {
     //console.log((await breaker_info).data)
-    res.status(503).json({data: (await breaker_info).data});
+    res.status(503).json({data: "Bonus Service unavailable"});
     return;
   }
   
