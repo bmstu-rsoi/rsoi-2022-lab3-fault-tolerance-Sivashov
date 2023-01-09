@@ -197,7 +197,7 @@ app.get('/api/v1/me', async function (req, res) {
       console.log(bonuses.data)
     }
 
-    if (tickets_data.data && bonuses.data)
+    if (tickets_data.data && (await bonuses).data)
     {
       res.status(200).json({tickets: [dat1, dat2], privilege: {balance: 1800, status: bonuses.data[0].status}})
     }
@@ -206,10 +206,7 @@ app.get('/api/v1/me', async function (req, res) {
     }
   }
   else {
-    if (tickets_data.data && bonuses.data)
-    {
-      res.status(200).json({tickets: [dat1, dat2], privilege: {}})
-    }
+    res.status(200).json({tickets: [dat1, dat2], privilege: {}})
     return;
   }
 
