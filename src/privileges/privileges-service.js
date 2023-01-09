@@ -20,11 +20,11 @@ app.use(methodOverride()); // поддержка put и delete
 const pg = require('pg');
 const privileges_db = new pg.Client({
   user: 'postgres',
-  //host: 'postgres',
+  host: 'postgres',
   database: 'postgres',
-  password: 'forest123ry',
+  password: 'postgres',
   port: 5432,
-  //ssl: false,
+  ssl: false,
 });
 
 privileges_db.connect(function (err){
