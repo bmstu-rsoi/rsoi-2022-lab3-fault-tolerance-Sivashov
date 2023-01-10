@@ -258,7 +258,7 @@ app.get('/api/v1/privilege', async function (req, res) {
       //res.status(200).json({balance: '1500150150', status: bonus_data.data[0].status, history: [dat, dat2]})
       res.status(200).json({balance: 1800, status: bonus_data.data[0].status, history: [dat, dat2]})
     }
-    if (response.data.length == 3) {
+    else if (response.data.length == 3) {
       let data_n = response.data[1]
       let dat2 = {date: "", ticketUid: data_n.ticket_uid,
         balanceDiff: "", operationType: ""}
