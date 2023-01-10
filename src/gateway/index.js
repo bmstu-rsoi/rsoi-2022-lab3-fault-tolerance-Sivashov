@@ -40,7 +40,7 @@ function unstableRequest() {
 
 const breaker = new CircuitBreaker(unstableRequest, {
   fallback: fallbackRes,
-  failureThreshold: 0
+  failureThreshold: 1
   // ...etc
 })
 
