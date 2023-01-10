@@ -118,13 +118,17 @@ app.patch('/api/v1/privileges', async (req, res) => {
       value_diff = ticket_price * -1
     }
     let hQuery;
+    let fQuery =
+    `select max(id) from Privilege_history;`
+    let cnt = privileges_db.query(fQuery)
+    console.log("History data 1: ", await cnt)
     if (value_diff < 0) {
       hQuery =
-      `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (2, ${privilege_id}, uuid_generate_v4(), now(), ${value_diff}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
+      `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0].max + 1}, ${privilege_id}, uuid_generate_v4(), now(), ${value_diff}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
     }
     else {
       hQuery =
-      `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (2, ${privilege_id}, uuid_generate_v4(), now(), ${value_diff}, 'FILL_IN_BALANCE') returning ticket_uid;`;
+      `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0].max + 1}, ${privilege_id}, uuid_generate_v4(), now(), ${value_diff}, 'FILL_IN_BALANCE') returning ticket_uid;`;
     
     }
     const res_insert = privileges_db.query(hQuery)
@@ -170,11 +174,11 @@ app.post('/api/v1/privileges', async (req, res) => {
   console.log("History data: ", await cnt)
   if (data.operation_type === 'FILL_IN_BALANCE') {
     hQuery =
-    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0] + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
+    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0].max + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
   }
   else {
     hQuery =
-    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0] + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'FILL_IN_BALANCE') returning ticket_uid;`;
+    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt).rows[0].max + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'FILL_IN_BALANCE') returning ticket_uid;`;
   }
   const res_insert = privileges_db.query(hQuery)
   console.log((await res_insert))
