@@ -102,7 +102,7 @@ app.post('/api/v1/tickets', async (req, res) => {
     console.log(ticket_uid, flight_number, price)
     let fQuery =
     `select count(*) from Ticket`
-    const cnt = tickets_db.query(fQuery)
+    const cnt = tickets_db.query(fQuery).rows[0].count
     console.log(await cnt)
     let hQuery =
     `insert into Ticket(id, ticket_uid, username, flight_number, price, status) values (${(await cnt) + 1}, '${ticket_uid}', '${name}', '${flight_number}', ${price}, 'PAID') returning *;`;
