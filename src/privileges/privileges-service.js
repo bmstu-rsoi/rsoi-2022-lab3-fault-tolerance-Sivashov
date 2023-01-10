@@ -169,11 +169,11 @@ app.post('/api/v1/privileges', async (req, res) => {
   const cnt = privileges_db.query(fQuery)
   if (data.operation_type === 'FILL_IN_BALANCE') {
     hQuery =
-    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${cnt + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
+    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt) + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'DEBIT_THE_ACCOUNT') returning ticket_uid;`;
   }
   else {
     hQuery =
-    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${cnt + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'FILL_IN_BALANCE') returning ticket_uid;`;
+    `insert into Privilege_history(id, privilege_id, ticket_uid, datetime, balance_diff, operation_type) values (${(await cnt) + 1}, ${priv_id}, '${ticket_uid}', now(), ${value * -1}, 'FILL_IN_BALANCE') returning ticket_uid;`;
   }
   const res_insert = privileges_db.query(hQuery)
   console.log((await res_insert))
