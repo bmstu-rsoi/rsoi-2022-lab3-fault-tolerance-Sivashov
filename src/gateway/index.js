@@ -225,7 +225,7 @@ app.get('/api/v1/privilege', async function (req, res) {
   }
   else {
     //console.log((await breaker_info).data)
-    res.status(503).setHeader('Content-Type', 'application/json').send('Bonus Service unavailable');
+    res.status(503).setHeader('Content-Type', 'application/json').json({message: 'Bonus Service unavailable'});
     return;
   }
   
@@ -368,7 +368,7 @@ app.post('/api/v1/tickets', async function (req, res) {
   }
   else {
     //console.log((await breaker_info).data)
-    res.status(503).setHeader('Content-Type', 'application/json').send('Bonus Service unavailable');
+    res.status(503).setHeader('Content-Type', 'application/json').json({message: 'Bonus Service unavailable'});
     return;
   }
 
